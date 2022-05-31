@@ -18,7 +18,7 @@ module.exports = class User extends Sequelize.Model {
           allowNull: false,
         },
         birthday: {
-          type: Sequelize.DATE,
+          type: Sequelize.DATEONLY,
           allowNull: false,
         },
         goal: {
