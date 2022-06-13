@@ -5,7 +5,7 @@ module.exports = class Plan extends Sequelize.Model {
     return super.init(
       {
         day: {
-          type: Sequelize.STRING(3),
+          type: Sequelize.TINYINT,
           allowNull: false,
         },
       },
