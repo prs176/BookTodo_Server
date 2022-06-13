@@ -4,12 +4,16 @@ const morgan = require("morgan");
 const path = require("path");
 const session = require("express-session");
 const dotenv = require("dotenv");
-const { sequelize } = require("./models");
 
 dotenv.config();
+const bookRouter = require("./routes/book");
+const planRouter = require("./routes/plan");
+const recordRouter = require("./routes/record");
+const userRouter = require("./routes/user");
+const { sequelize } = require("./models");
 
 const app = express();
-app.set("port", process.env.PORT || 8001);
+app.set("port", process.env.PORT);
 sequelize
   .sync({ force: false })
   .then(() => {
@@ -24,7 +28,6 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
-
 app.use(
   session({
     resave: false,
@@ -37,6 +40,11 @@ app.use(
   })
 );
 
+app.use("/book", bookRouter);
+app.use("/plan", planRouter);
+app.use("/record", recordRouter);
+app.use("/user", userRouter);
+
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
   error.status = 404;
@@ -44,10 +52,9 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  res.locals.message = err.message;
-  res.locals.error = process.env.NODE_ENV !== "production" ? err : {};
-  res.status(err.status || 500);
-  res.render("error");
+  res
+    .status(err.status || 500)
+    .json({ code: err.status || 500, message: err.message });
 });
 
 app.listen(app.get("port"), () => {
