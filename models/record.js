@@ -4,17 +4,14 @@ module.exports = class Record extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        isbn: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-        },
-        pages: {
+        page: {
           type: Sequelize.INTEGER,
           allowNull: false,
         },
         date: {
           type: Sequelize.DATE,
           allowNull: false,
+          defaultValue: Sequelize.NOW,
         },
       },
       {
@@ -32,5 +29,9 @@ module.exports = class Record extends Sequelize.Model {
 
   static associate(db) {
     db.Record.belongsTo(db.User);
+    db.Record.belongsTo(db.Book, {
+      foreignKey: "isbn",
+      targetKey: "isbn",
+    });
   }
 };

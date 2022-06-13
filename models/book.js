@@ -5,12 +5,9 @@ module.exports = class Book extends Sequelize.Model {
     return super.init(
       {
         isbn: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.STRING(20),
           allowNull: false,
-        },
-        progress: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
+          unique: true,
         },
       },
       {
@@ -28,5 +25,9 @@ module.exports = class Book extends Sequelize.Model {
 
   static associate(db) {
     db.Book.belongsTo(db.User);
+    db.Book.hasMany(db.Record, {
+      foreignKey: "isbn",
+      sourceKey: "isbn",
+    });
   }
 };
