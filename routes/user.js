@@ -1,10 +1,13 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const cors = require("cors");
 
 const User = require("../models/user");
 
 const router = express.Router();
+
+router.use(cors({ credentials: true }));
 
 router.post("/join", async (req, res, next) => {
   const { email, nick, password, birthday, goal } = req.body;
