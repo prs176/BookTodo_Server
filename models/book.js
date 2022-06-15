@@ -9,6 +9,10 @@ module.exports = class Book extends Sequelize.Model {
           allowNull: false,
           unique: true,
         },
+        page: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+        },
       },
       {
         sequelize,

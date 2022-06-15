@@ -1,9 +1,12 @@
 const express = require("express");
 const { Book, Record } = require("../models");
+const cors = require("cors");
 
 const { verifyToken } = require("./middlewares");
 
 const router = express.Router();
+
+router.use(cors({ credentials: true }));
 
 router.get("/", verifyToken, async (req, res, next) => {
   try {
@@ -63,6 +66,7 @@ router.post("/", verifyToken, async (req, res, next) => {
     const book = await Book.create({
       UserId: req.decoded.id,
       isbn: req.body.isbn,
+      page: req.body.page,
     });
 
     res.status(201).json({

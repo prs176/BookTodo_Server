@@ -1,9 +1,12 @@
 const express = require("express");
 const Plan = require("../models/plan");
+const cors = require("cors");
 
 const { verifyToken } = require("./middlewares");
 
 const router = express.Router();
+
+router.use(cors({ credentials: true }));
 
 router.get("/", verifyToken, async (req, res, next) => {
   try {

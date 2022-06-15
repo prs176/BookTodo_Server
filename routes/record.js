@@ -1,10 +1,13 @@
 const express = require("express");
 const Record = require("../models/record");
+const cors = require("cors");
 
 const { verifyToken } = require("./middlewares");
 const { sequelize } = require("../models");
 
 const router = express.Router();
+
+router.use(cors({ credentials: true }));
 
 router.get("/:month", verifyToken, async (req, res, next) => {
   try {
