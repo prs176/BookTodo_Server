@@ -11,7 +11,7 @@ router.use(cors({ credentials: true }));
 router.get("/", verifyToken, async (req, res, next) => {
   try {
     const books = await Book.findAll({
-      where: { userId: req.decoded.id },
+      where: { UserId: req.decoded.id },
       include: [
         {
           model: Record,
@@ -34,7 +34,7 @@ router.get("/", verifyToken, async (req, res, next) => {
 router.get("/:isbn", verifyToken, async (req, res, next) => {
   try {
     const book = await Book.findOne({
-      where: { userId: req.decoded.id, isbn: req.params.isbn },
+      where: { UserId: req.decoded.id, isbn: req.params.isbn },
       include: [
         {
           model: Record,

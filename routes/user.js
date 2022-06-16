@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const cors = require("cors");
 
 const User = require("../models/user");
+const { verifyToken } = require("./middlewares");
 
 const router = express.Router();
 
@@ -61,6 +62,37 @@ router.post("/login", async (req, res, next) => {
         message: "가입되지 않은 이메일입니다.",
       });
     }
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
+router.get("/", verifyToken, async (req, res, next) => {
+  try {
+    const user = await User.findOne({ where: { id: req.decoded.id } });
+
+    return res.status(200).json({
+      code: 200,
+      message: "목표가 조회되었습니다.",
+      response: user.goal,
+    });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
+router.put("/:goal", verifyToken, async (req, res, next) => {
+  try {
+    const user = await User.findOne({ where: { id: req.decoded.id } });
+    user.update({ goal: req.params.goal });
+
+    return res.status(201).json({
+      code: 201,
+      message: "목표가 수정되었습니다.",
+      response: req.params.goal,
+    });
   } catch (err) {
     console.error(err);
     next(err);

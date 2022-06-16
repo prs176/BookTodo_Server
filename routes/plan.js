@@ -11,7 +11,7 @@ router.use(cors({ credentials: true }));
 router.get("/", verifyToken, async (req, res, next) => {
   try {
     const plans = await Plan.findAll({
-      where: { userId: req.decoded.id },
+      where: { UserId: req.decoded.id },
     });
 
     res.json({
@@ -27,7 +27,7 @@ router.get("/", verifyToken, async (req, res, next) => {
 
 router.post("/", verifyToken, async (req, res, next) => {
   try {
-    await Plan.destroy({ where: { userId: req.decoded.id } });
+    await Plan.destroy({ where: { UserId: req.decoded.id } });
 
     const plans = await Promise.all(
       req.body.days.map((day) => {
