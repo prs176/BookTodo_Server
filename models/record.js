@@ -13,6 +13,10 @@ module.exports = class Record extends Sequelize.Model {
           allowNull: false,
           defaultValue: Sequelize.NOW,
         },
+        isbn: {
+          type: Sequelize.STRING(20),
+          allowNull: false,
+        },
       },
       {
         sequelize,

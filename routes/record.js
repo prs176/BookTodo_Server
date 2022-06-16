@@ -65,6 +65,7 @@ router.post("/", verifyToken, async (req, res, next) => {
         UserId: req.decoded.id,
         BookId: book.id,
         page,
+        isbn,
       });
 
       res.status(201).json({
