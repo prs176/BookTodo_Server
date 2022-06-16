@@ -7,7 +7,6 @@ module.exports = class Book extends Sequelize.Model {
         isbn: {
           type: Sequelize.STRING(20),
           allowNull: false,
-          unique: true,
         },
         page: {
           type: Sequelize.INTEGER,
