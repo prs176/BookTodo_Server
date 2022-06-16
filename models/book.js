@@ -29,9 +29,6 @@ module.exports = class Book extends Sequelize.Model {
 
   static associate(db) {
     db.Book.belongsTo(db.User);
-    db.Book.hasMany(db.Record, {
-      foreignKey: "isbn",
-      sourceKey: "isbn",
-    });
+    db.Book.hasMany(db.Record);
   }
 };

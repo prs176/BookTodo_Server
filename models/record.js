@@ -29,9 +29,6 @@ module.exports = class Record extends Sequelize.Model {
 
   static associate(db) {
     db.Record.belongsTo(db.User);
-    db.Record.belongsTo(db.Book, {
-      foreignKey: "isbn",
-      targetKey: "isbn",
-    });
+    db.Record.belongsTo(db.Book);
   }
 };

@@ -3,7 +3,7 @@ const Record = require("../models/record");
 const cors = require("cors");
 
 const { verifyToken } = require("./middlewares");
-const { sequelize } = require("../models");
+const { sequelize, Book } = require("../models");
 
 const router = express.Router();
 
@@ -35,10 +35,16 @@ router.get("/:month", verifyToken, async (req, res, next) => {
 router.post("/", verifyToken, async (req, res, next) => {
   const { isbn, page } = req.body;
   try {
-    const exRecord = await Record.findOne({
+    const book = await Book.findOne({
       where: {
         UserId: req.decoded.id,
         isbn: isbn,
+      },
+    });
+    const exRecord = await Record.findOne({
+      where: {
+        UserId: req.decoded.id,
+        BookId: book.id,
         $and: sequelize.where(
           sequelize.fn("DATE", sequelize.col("date")),
           sequelize.literal("CURRENT_DATE")
@@ -57,7 +63,7 @@ router.post("/", verifyToken, async (req, res, next) => {
     } else {
       const record = await Record.create({
         UserId: req.decoded.id,
-        isbn,
+        BookId: book.id,
         page,
       });
 
